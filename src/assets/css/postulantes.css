@@ -1,3 +1,236 @@
+/* Modal moderno para postulantes */
+/* Modal moderno para postulantes */
+.custom-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+.custom-modal-content {
+  background: #fff;
+  border-radius: 16px;
+  padding: 2.5rem 2rem 2rem 2rem;
+  max-width: 600px;
+  width: 95vw;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  position: relative;
+  animation: modalPop 0.3s;
+  max-height: 80vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+@keyframes modalPop {
+  0% { transform: scale(0.95); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.modal-title {
+  color: #d32f2f;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.postulantes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  overflow-y: auto;
+  max-height: 55vh;
+  padding-right: 0.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: #1976d2 #f9f9f9;
+}
+.postulantes-list::-webkit-scrollbar {
+  width: 8px;
+  background: #f9f9f9;
+}
+.postulantes-list::-webkit-scrollbar-thumb {
+  background: #1976d2;
+  border-radius: 4px;
+}
+.postulante-card {
+  background: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 1.2rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: box-shadow 0.2s;
+}
+.postulante-card:hover {
+  box-shadow: 0 4px 16px rgba(211,47,47,0.12);
+}
+.postulante-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.postulante-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #1976d2;
+}
+.postulante-meta {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.98rem;
+  color: #555;
+}
+.postulante-actions {
+  display: flex;
+  align-items: center;
+}
+.btn-cv {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 1.2rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+.btn-cv:hover {
+  background: #1565c0;
+}
+.no-applicants {
+  text-align: center;
+  color: #f44336;
+  font-weight: bold;
+  margin-top: 1rem;
+}
+@media (max-width: 700px) {
+  .custom-modal-content {
+    max-width: 98vw;
+    padding: 1.2rem 0.5rem 1rem 0.5rem;
+    font-size: 0.97rem;
+    max-height: 90vh;
+    overflow: hidden;
+  }
+  .modal-title {
+    font-size: 1.2rem;
+  }
+  .postulantes-list {
+    max-height: 50vh;
+  }
+  .postulante-card {
+    flex-direction: column;
+    gap: 0.7rem;
+    padding: 0.7rem 0.5rem;
+  }
+}
+.modal-title {
+  color: #d32f2f;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.postulantes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+.postulante-card {
+  background: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 1.2rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: box-shadow 0.2s;
+}
+.postulante-card:hover {
+  box-shadow: 0 4px 16px rgba(211,47,47,0.12);
+}
+.postulante-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.postulante-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #1976d2;
+}
+.postulante-meta {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.98rem;
+  color: #555;
+}
+.postulante-actions {
+  display: flex;
+  align-items: center;
+}
+.btn-cv {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 1.2rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+.btn-cv:hover {
+  background: #1565c0;
+}
+.cv-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+.cv-modal-content {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.22);
+  position: relative;
+  text-align: left;
+}
+.cv-title {
+  color: #1976d2;
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+.cv-details p {
+  margin-bottom: 0.5rem;
+  color: #444;
+}
+.btn-contratar {
+  background: #43a047;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 0.7rem 1.5rem;
+  margin-top: 1.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+.btn-contratar:hover {
+  background: #388e3c;
+}
 
         * {
             margin: 0;
@@ -125,6 +358,27 @@
             color: white;
             padding: 10px 20px;
             border: none;
+/* Botón cerrar sesión en el panel empresa */
+.logout-btn {
+  background: #d32f2f;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 0.7rem 1.6rem;
+  font-size: 1.08rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: auto;
+  margin-right: 0.5rem;
+  box-shadow: 0 2px 8px rgba(211,47,47,0.10);
+  transition: background 0.2s, box-shadow 0.2s;
+  outline: none;
+  border: 2px solid #b71c1c;
+}
+.logout-btn:hover {
+  background: #b71c1c;
+  box-shadow: 0 4px 16px rgba(211,47,47,0.18);
+}
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
@@ -160,6 +414,7 @@
             background-color: rgba(0,0,0,0.5);
         }
         
+
         .modal-content {
             background-color: white;
             margin: 5% auto;

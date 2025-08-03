@@ -82,19 +82,44 @@ export default {
       let loginSuccess = false;
       let userData = null;
       if (this.currentUserType === 'graduado') {
-        const graduados = JSON.parse(localStorage.getItem('graduados')) || [];
-        userData = graduados.find(grad =>
-          (grad.emailInstitucional === this.email || grad.emailPersonal === this.email) &&
-          grad.password === this.password
-        );
-        loginSuccess = !!userData;
+        let graduados = JSON.parse(localStorage.getItem('graduados')) || [];
+        if (graduados.length === 0) {
+          // Si no hay graduados, crea uno de prueba con los datos ingresados
+          userData = {
+            emailInstitucional: this.email,
+            emailPersonal: this.email,
+            password: this.password,
+            nombre: 'Usuario de Prueba'
+          };
+          graduados.push(userData);
+          localStorage.setItem('graduados', JSON.stringify(graduados));
+          loginSuccess = true;
+        } else {
+          userData = graduados.find(grad =>
+            (grad.emailInstitucional === this.email || grad.emailPersonal === this.email) &&
+            grad.password === this.password
+          );
+          loginSuccess = !!userData;
+        }
       } else {
-        const empresas = JSON.parse(localStorage.getItem('empresas')) || [];
-        userData = empresas.find(empresa =>
-          empresa.emailCorporativo === this.email &&
-          empresa.password === this.password
-        );
-        loginSuccess = !!userData;
+        let empresas = JSON.parse(localStorage.getItem('empresas')) || [];
+        if (empresas.length === 0) {
+          // Si no hay empresas, crea una de prueba con los datos ingresados
+          userData = {
+            emailCorporativo: this.email,
+            password: this.password,
+            nombre: 'Empresa de Prueba'
+          };
+          empresas.push(userData);
+          localStorage.setItem('empresas', JSON.stringify(empresas));
+          loginSuccess = true;
+        } else {
+          userData = empresas.find(empresa =>
+            empresa.emailCorporativo === this.email &&
+            empresa.password === this.password
+          );
+          loginSuccess = !!userData;
+        }
       }
       if (loginSuccess) {
         const sessionData = {
@@ -115,7 +140,7 @@ export default {
           } else {
             this.$router.push('/panel-empresa');
           }
-        }, 2000);
+        }, 1500);
       } else {
         this.showErrorMessage('Credenciales incorrectas. Verifica tu email y contraseña.');
       }

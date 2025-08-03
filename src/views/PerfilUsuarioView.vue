@@ -96,137 +96,148 @@
       </div>
 
       <!-- Formación Académica -->
-      <div v-if="activeTab === 'academic'" class="tab-panel" id="academic">
-        <div class="form-section">
-          <h3>Título ULEAM</h3>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="titulo">Título Obtenido</label>
-              <input type="text" id="titulo" v-model="profileData.academic.titulo" readonly>
+      <div v-if="activeTab === 'academic'" class="tab-panel active" id="academic">
+        <form @submit.prevent="saveAcademicData">
+          <div class="form-section">
+            <h3>Título ULEAM</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="titulo">Título Obtenido</label>
+                <input type="text" id="titulo" v-model="profileData.academic.titulo">
+              </div>
+              <div class="form-group">
+                <label for="facultad">Facultad</label>
+                <input type="text" id="facultad" v-model="profileData.academic.facultad">
+              </div>
             </div>
-            <div class="form-group">
-              <label for="facultad">Facultad</label>
-              <input type="text" id="facultad" v-model="profileData.academic.facultad" readonly>
+          </div>
+          <div class="form-section">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <h3>Otros Estudios/Certificaciones</h3>
+              <button type="button" class="btn-primary" @click="addEducation">+ Agregar Estudio</button>
             </div>
-          </div>
-        </div>
-        <div class="form-section">
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <h3>Otros Estudios/Certificaciones</h3>
-            <button type="button" class="btn-primary" @click="showEducationForm = true">+ Agregar Estudio</button>
-          </div>
-          <div v-if="showEducationForm" class="modal-form">
-            <form @submit.prevent="submitEducation">
-              <input type="text" v-model="educationForm.titulo" placeholder="Título o curso" required>
-              <input type="text" v-model="educationForm.institucion" placeholder="Institución" required>
-              <input type="text" v-model="educationForm.ano" placeholder="Año" required>
-              <button type="submit" class="btn-primary">Guardar</button>
-              <button type="button" class="btn-secondary" @click="cancelEducation">Cancelar</button>
-            </form>
-          </div>
-          <div id="educationList">
-            <div v-for="(edu, idx) in profileData.academic.education" :key="idx" class="education-item">
-              <div class="item-header">
-                <strong>{{ edu.titulo }}</strong>
-                <div class="item-actions">
-                  <button class="btn-secondary" @click="editEducation(idx)">Editar</button>
-                  <button class="btn-danger" @click="removeEducation(idx)">Eliminar</button>
+            <div v-if="showEducationForm" class="modal-form">
+              <form @submit.prevent="submitEducation">
+                <input type="text" v-model="educationForm.titulo" placeholder="Título o curso" required>
+                <input type="text" v-model="educationForm.institucion" placeholder="Institución" required>
+                <input type="text" v-model="educationForm.ano" placeholder="Año" required>
+                <button type="submit" class="btn-primary">Guardar</button>
+                <button type="button" class="btn-secondary" @click="cancelEducation">Cancelar</button>
+              </form>
+            </div>
+            <div id="educationList">
+              <div v-for="(edu, idx) in profileData.academic.education" :key="idx" class="education-item">
+                <div class="item-header">
+                  <strong>{{ edu.titulo }}</strong>
+                  <div class="item-actions">
+                    <button class="btn-secondary" @click="editEducation(idx)">Editar</button>
+                    <button class="btn-danger" @click="removeEducation(idx)">Eliminar</button>
+                  </div>
+                </div>
+                <p><strong>Institución:</strong> {{ edu.institucion }}</p>
+                <p><strong>Año:</strong> {{ edu.ano }}</p>
+                <div v-if="editEducationIdx === idx" class="modal-form">
+                  <form @submit.prevent="updateEducation(idx)">
+                    <input type="text" v-model="educationForm.titulo" required>
+                    <input type="text" v-model="educationForm.institucion" required>
+                    <input type="text" v-model="educationForm.ano" required>
+                    <button type="submit" class="btn-primary">Actualizar</button>
+                    <button type="button" class="btn-secondary" @click="cancelEducation">Cancelar</button>
+                  </form>
                 </div>
               </div>
-              <p><strong>Institución:</strong> {{ edu.institucion }}</p>
-              <p><strong>Año:</strong> {{ edu.ano }}</p>
-              <div v-if="editEducationIdx === idx" class="modal-form">
-                <form @submit.prevent="updateEducation(idx)">
-                  <input type="text" v-model="educationForm.titulo" required>
-                  <input type="text" v-model="educationForm.institucion" required>
-                  <input type="text" v-model="educationForm.ano" required>
-                  <button type="submit" class="btn-primary">Actualizar</button>
-                  <button type="button" class="btn-secondary" @click="cancelEducation">Cancelar</button>
-                </form>
-              </div>
             </div>
           </div>
-        </div>
+          <button type="submit" class="btn-primary">Guardar Cambios</button>
+        </form>
       </div>
 
       <!-- Experiencia Laboral -->
-      <div v-if="activeTab === 'experience'" class="tab-panel" id="experience">
-        <div class="form-section">
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <h3>Experiencia Laboral</h3>
-            <button type="button" class="btn-primary" @click="addExperience">+ Agregar Experiencia</button>
-          </div>
-          <div id="experienceList">
-            <div v-for="(exp, idx) in profileData.experience" :key="idx" class="experience-item">
-              <div class="item-header">
-                <strong>{{ exp.cargo }}</strong>
-                <div class="item-actions">
-                  <button class="btn-secondary" @click="editExperience(idx)">Editar</button>
-                  <button class="btn-danger" @click="removeExperience(idx)">Eliminar</button>
+      <div v-if="activeTab === 'experience'" class="tab-panel active" id="experience">
+        <form @submit.prevent="saveExperienceData">
+          <div class="form-section">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <h3>Experiencia Laboral</h3>
+              <button type="button" class="btn-primary" @click="addExperience">+ Agregar Experiencia</button>
+            </div>
+            <div id="experienceList">
+              <div v-for="(exp, idx) in profileData.experience" :key="idx" class="experience-item">
+                <div class="item-header">
+                  <strong>{{ exp.cargo }}</strong>
+                  <div class="item-actions">
+                    <button class="btn-secondary" @click="editExperience(idx)">Editar</button>
+                    <button class="btn-danger" @click="removeExperience(idx)">Eliminar</button>
+                  </div>
                 </div>
+                <p><strong>Empresa:</strong> <input type="text" v-model="exp.empresa"></p>
+                <p><strong>Periodo:</strong> <input type="text" v-model="exp.periodo"></p>
+                <p><strong>Funciones:</strong> <input type="text" v-model="exp.funciones"></p>
               </div>
-              <p><strong>Empresa:</strong> {{ exp.empresa }}</p>
-              <p><strong>Periodo:</strong> {{ exp.periodo }}</p>
-              <p><strong>Funciones:</strong> {{ exp.funciones }}</p>
             </div>
           </div>
-        </div>
+          <button type="submit" class="btn-primary">Guardar Cambios</button>
+        </form>
       </div>
 
       <!-- Habilidades -->
-      <div v-if="activeTab === 'skills'" class="tab-panel" id="skills">
-        <div class="form-section">
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <h3>Habilidades Técnicas</h3>
-            <button type="button" class="btn-primary" @click="addSkill('technical')">+ Agregar Habilidad</button>
-          </div>
-          <div id="technicalSkills">
-            <div v-for="(skill, idx) in profileData.skills.technical" :key="'tech-' + idx" class="skill-item">
-              <div class="item-header">
-                <strong>{{ skill.nombre }} - {{ skill.nivel }}</strong>
-                <div class="item-actions">
-                  <button class="btn-danger" @click="removeSkill('technical', idx)">Eliminar</button>
+      <div v-if="activeTab === 'skills'" class="tab-panel active" id="skills">
+        <form @submit.prevent="saveSkillsData">
+          <div class="form-section">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <h3>Habilidades Técnicas</h3>
+              <button type="button" class="btn-primary" @click="addSkill('technical')">+ Agregar Habilidad</button>
+            </div>
+            <div id="technicalSkills">
+              <div v-for="(skill, idx) in profileData.skills.technical" :key="'tech-' + idx" class="skill-item">
+                <div class="item-header">
+                  <input type="text" v-model="skill.nombre" placeholder="Nombre">
+                  <input type="text" v-model="skill.nivel" placeholder="Nivel">
+                  <div class="item-actions">
+                    <button class="btn-danger" @click="removeSkill('technical', idx)">Eliminar</button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="form-section">
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <h3>Habilidades Blandas</h3>
-            <button type="button" class="btn-primary" @click="addSkill('soft')">+ Agregar Habilidad</button>
-          </div>
-          <div id="softSkills">
-            <div v-for="(skill, idx) in profileData.skills.soft" :key="'soft-' + idx" class="skill-item">
-              <div class="item-header">
-                <strong>{{ skill.nombre }}</strong>
-                <div class="item-actions">
-                  <button class="btn-danger" @click="removeSkill('soft', idx)">Eliminar</button>
+          <div class="form-section">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <h3>Habilidades Blandas</h3>
+              <button type="button" class="btn-primary" @click="addSkill('soft')">+ Agregar Habilidad</button>
+            </div>
+            <div id="softSkills">
+              <div v-for="(skill, idx) in profileData.skills.soft" :key="'soft-' + idx" class="skill-item">
+                <div class="item-header">
+                  <input type="text" v-model="skill.nombre" placeholder="Nombre">
+                  <div class="item-actions">
+                    <button class="btn-danger" @click="removeSkill('soft', idx)">Eliminar</button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="form-section">
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <h3>Idiomas</h3>
-            <button type="button" class="btn-primary" @click="addLanguage">+ Agregar Idioma</button>
-          </div>
-          <div id="languagesList">
-            <div v-for="(lang, idx) in profileData.languages" :key="'lang-' + idx" class="skill-item">
-              <div class="item-header">
-                <strong>{{ lang.idioma }} - {{ lang.nivel }}</strong>
-                <div class="item-actions">
-                  <button class="btn-danger" @click="removeLanguage(idx)">Eliminar</button>
+          <div class="form-section">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <h3>Idiomas</h3>
+              <button type="button" class="btn-primary" @click="addLanguage">+ Agregar Idioma</button>
+            </div>
+            <div id="languagesList">
+              <div v-for="(lang, idx) in profileData.languages" :key="'lang-' + idx" class="skill-item">
+                <div class="item-header">
+                  <input type="text" v-model="lang.idioma" placeholder="Idioma">
+                  <input type="text" v-model="lang.nivel" placeholder="Nivel">
+                  <div class="item-actions">
+                    <button class="btn-danger" @click="removeLanguage(idx)">Eliminar</button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+          <button type="submit" class="btn-primary">Guardar Cambios</button>
+        </form>
       </div>
 
       <!-- Preferencias -->
-      <div v-if="activeTab === 'preferences'" class="tab-panel" id="preferences">
+      <div v-if="activeTab === 'preferences'" class="tab-panel active" id="preferences">
         <form @submit.prevent="savePreferences">
           <div class="form-section">
             <h3>Preferencias Laborales</h3>
@@ -359,6 +370,18 @@ export default {
     }
   },
   methods: {
+    saveAcademicData() {
+      sessionStorage.setItem('profileData', JSON.stringify(this.profileData));
+      this.showSuccess();
+    },
+    saveExperienceData() {
+      sessionStorage.setItem('profileData', JSON.stringify(this.profileData));
+      this.showSuccess();
+    },
+    saveSkillsData() {
+      sessionStorage.setItem('profileData', JSON.stringify(this.profileData));
+      this.showSuccess();
+    },
     triggerPhotoInput() {
       this.$refs.photoInput.click();
     },
